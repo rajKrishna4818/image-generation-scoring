@@ -15,16 +15,21 @@ class ImageScorer :
     def _load_image(self):
             from PIL import Image
             return Image.open(self.image_path)
+    
+    def close_image(self):
+        """Close the image file."""
+        if self.image:
+            self.image.close()
      
     def calculate_palatte_contrast(self):
         def luminance(color):
             return 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2]
-        max_luminance = 0
+        max_luminance = -1
         min_luminance = 500
         for i in self.brand_palette:
              temp = luminance(i)
              max_luminance = max(temp,max_luminance)
-             min_luminance - min(temp,min_luminance)
+             min_luminance = min(temp,min_luminance)
 
         return (max_luminance + 0.05) / (min_luminance + 0.05) ## colour contrast by using palette
 
@@ -60,3 +65,9 @@ class ImageScorer :
         }
         
         return color_contribution
+    
+    def tearDown(self):
+        """
+        Clean up test images and close resources after the test runs.
+        """
+        self.image.close()  # Close the opened image in the score

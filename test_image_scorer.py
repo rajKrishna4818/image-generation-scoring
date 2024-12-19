@@ -1,5 +1,6 @@
 import unittest
 from PIL import Image
+from PIL import ImageColor
 import numpy as np
 from ImageScorer import ImageScorer
 
@@ -16,10 +17,10 @@ class TestImageScorer(unittest.TestCase):
             ], dtype=np.uint8)
         )
         self.test_image.save("test_image.jpg")
-
+        self.test_image.close()
         # Define a sample brand palette
         self.brand_palette = ["#FFC107", "#212121", "#FFFFFF"]  # Gold, Black, White
-        self.scorer = ImageScorer("test_image.jpg", self.brand_palette)
+        self.scorer = ImageScorer("test_image.jpg",self.brand_palette)
 
     def test_palette_conversion(self):
         """
@@ -32,10 +33,9 @@ class TestImageScorer(unittest.TestCase):
         """
         Test the contrast calculation for the brand palette.
         """
-        # For the given palette, calculate expected contrast manually
-        expected_contrast = (255 * 0.2126 + 255 * 0.7152 + 255 * 0.0722 + 0.05) / (
-            33 * 0.2126 + 33 * 0.7152 + 33 * 0.0722 + 0.05
-        )
+        # For the given palette, calculate expected contrast manuall
+
+        expected_contrast = (255 + 0.05) / ( 33 + 0.05 )
         calculated_contrast = self.scorer.calculate_palatte_contrast()
         self.assertAlmostEqual(calculated_contrast, expected_contrast, places=2)
 
