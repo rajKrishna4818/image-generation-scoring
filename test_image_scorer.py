@@ -2,7 +2,7 @@ import unittest
 from PIL import Image
 from PIL import ImageColor
 import numpy as np
-from ImageScorer import ImageScorer
+from Image_scorer import ImageScorer
 
 class TestImageScorer(unittest.TestCase):
     def setUp(self):
