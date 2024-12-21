@@ -125,7 +125,9 @@ class ImageScorer :
                 str: Extracted text from the image.
         """
         # Convert to grayscale
-        gray_image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+        image = np.array(self.image)
+
+        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         # Apply thresholding
         _, thresh_image = cv2.threshold(gray_image, 150, 255, cv2.THRESH_BINARY)
