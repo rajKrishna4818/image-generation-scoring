@@ -18,4 +18,8 @@ unittest2==1.1.0       # Enhanced unittest framework (optional)
 pytest==7.4.2          # For running unit tests (if pytest is used)
 
 # Optional headless OpenCV for environments without GUI support
-opencv-python-headless==4.8.0
+fastapi
+uvicorn
+streamlit
+gradio_client
+pydantic

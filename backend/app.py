@@ -5,6 +5,7 @@ from utils.prompt_generator import create_prompt
 import boto3
 import os
 import uuid
+from score_functions import score
 
 # FastAPI app instance
 app = FastAPI()
@@ -99,12 +100,23 @@ def generate_ad(payload: RequestPayload):
 
         # Generate scoring breakdown (mocked for simplicity)
         scoring = {
-            "background_foreground_separation": 18,
-            "brand_guideline_adherence": 20,
-            "creativity_visual_appeal": 19,
-            "product_focus": 18,
-            "call_to_action": 19,
+            "background_foreground_separation": 0,
+            "brand_guideline_adherence": 0,
+            "creativity_visual_appeal": 0,
+            "product_focus": 0,
+            "call_to_action": 0,
+            "audience_relevance":0,
+            "total_score":0,
         }
+        marks = score(image_data,details.brand_palette)
+        scoring["call_to_action"] = marks.text_score(details.cta_text)
+        scoring["brand_guideline_adherence"] = marks.text_score(details.tagline)
+        scoring["product_focus"] = marks.luminance_score()
+        scoring["creativity_visual_appeal"] = marks.image_colour_contrast_score()
+        scoring["audience_relevance"] = marks.palatte_contrast_score()
+        scoring["total_score"] = sum(scoring.values())/6
+
+
 
         return {"creative_url": presigned_url, "scoring": scoring}
 
