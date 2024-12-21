@@ -1,0 +1,25 @@
+# Image Processing and Scoring
+Pillow==10.0.0         # For handling and manipulating images
+opencv-python==4.8.0   # For advanced image processing (OpenCV)
+numpy==1.26.0          # For numerical operations on images
+scipy==1.11.3          # For KDTree and spatial operations
+
+# AWS S3 Integration
+boto3==1.28.0          # For interacting with AWS S3
+
+# OCR (Text Extraction)
+pytesseract==0.3.10    # For extracting text from images using Tesseract OCR
+
+# Visualization
+matplotlib==3.8.0      # For plotting histograms and visualizations
+
+# Testing
+unittest2==1.1.0       # Enhanced unittest framework (optional)
+pytest==7.4.2          # For running unit tests (if pytest is used)
+
+# Optional headless OpenCV for environments without GUI support
+fastapi
+uvicorn
+streamlit
+gradio_client
+pydantic

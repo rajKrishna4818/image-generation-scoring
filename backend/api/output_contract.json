@@ -1,0 +1,20 @@
+{
+  "status": "string",
+  "creative_url": "string",
+  "scoring": {
+    "background_foreground_separation": "integer",
+    "brand_guideline_adherence": "integer",
+    "creativity_visual_appeal": "integer",
+    "product_focus": "integer",
+    "call_to_action": "integer",
+    "total_score": "integer"
+  },
+  "metadata": {
+    "file_size_kb": "integer",
+    "dimensions": {
+      "width": "integer",
+      "height": "integer"
+    }
+  }
+}
+ 
