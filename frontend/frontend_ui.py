@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_ENDPOINT = "http://127.0.0.1:8000/generate_ad/"
+API_ENDPOINT = "http://backend:80/generate_ad/"
 
 st.title("Ad Creative Generator & Scorer")
 

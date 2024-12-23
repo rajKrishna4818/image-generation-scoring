@@ -135,3 +135,4 @@ def generate_ad(payload: RequestPayload):
         # Log the exception and re-raise it
         print(f"Error occurred: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+# Add at the bottom of the file

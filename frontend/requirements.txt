@@ -7,8 +7,6 @@ scipy    # For KDTree and spatial operations
 # AWS S3 Integration
 boto3        # For interacting with AWS S3
 
-# OCR (Text Extraction)
-pytesseract    # For extracting text from images using Tesseract OCR
 
 # Visualization
 matplotlib      # For plotting histograms and visualizations
@@ -18,8 +16,7 @@ unittest2      # Enhanced unittest framework (optional)
 pytest         # For running unit tests (if pytest is used)
 
 # Optional headless OpenCV for environments without GUI support
-fastapi
-uvicorn
+
 streamlit
 gradio_client
 pydantic

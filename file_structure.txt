@@ -1,6 +1,7 @@
 .
 ├── README.md
 ├── backend
+│   ├── Dockerfile
 │   ├── __pycache__
 │   │   ├── app.cpython-311.pyc
 │   │   └── app.cpython-313.pyc
@@ -21,6 +22,8 @@
 │   │   └── stable_diffusion_api.py
 │   ├── app.py
 │   ├── assets
+│   │   └── f0ce470011c14666ac38ca64b9f51802.png
+│   ├── requirements.txt
 │   └── utils
 │       ├── __pycache__
 │       │   ├── prompt_generator.cpython-311.pyc
@@ -28,8 +31,11 @@
 │       │   └── s3_uploader.cpython-311.pyc
 │       ├── prompt_generator.py
 │       └── s3_uploader.py
+├── docker-compose.yml
+├── ec2-docker-key-pair.pem
 ├── file_structure.txt
 ├── frontend
-│   └── frontend_ui.py
+│   ├── Dockerfile
+│   ├── frontend_ui.py
+│   └── requirements.txt
 ├── main.py
-├── requirements.txt
