@@ -1,6 +1,7 @@
-###AI-Powered Advertising Creative Generator and Scorer
+#AI-Powered Advertising Creative Generator and Scorer
 A full-stack application for AI-driven ad creative generation and evaluation.
-Setup
+
+##Setup
 bashCopy# Clone repository
 git clone https://github.com/your-repo/ad-creative-generator.git
 cd ad-creative-generator
