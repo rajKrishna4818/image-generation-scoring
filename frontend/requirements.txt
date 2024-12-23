@@ -1,0 +1,31 @@
+# API Framework
+pydantic
+
+# AWS
+boto3
+python-dotenv
+
+# Image Processing
+Pillow
+opencv-python
+numpy
+scipy
+
+
+# Machine Learning & AI
+scikit-learn
+gradio-client
+
+# Frontend
+streamlit
+
+# HTTP Client
+requests
+
+# Testing
+pytest
+httpx
+
+# Utilities
+python-multipart
+uuid

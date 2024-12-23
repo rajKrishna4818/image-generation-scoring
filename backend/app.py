@@ -38,7 +38,17 @@ class RequestPayload(BaseModel):
     scoring_criteria: dict
 
 # S3 client setup
-s3_client = boto3.client("s3")
+#s3_client = boto3.client("s3")
+S3_BUCKET_NAME = "customadgenerator"     # Replace with your S3 bucket name
+AWS_ACCESS_KEY= 'AKIAXNGUU7TZRV7GFHXF'
+AWS_SECRET_KEY= 'uSmB5V33KeR+YirEi/cxYZGe9zHsee/UBhUoSPKR'
+S3_REGION='us-east-1'
+s3_client = boto3.client(
+            's3',
+            aws_access_key_id=AWS_ACCESS_KEY,
+            aws_secret_access_key=AWS_SECRET_KEY,
+            region_name=S3_REGION
+        )
 
 
 # Helper Functions
