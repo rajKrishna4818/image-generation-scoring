@@ -8,9 +8,13 @@ Access the product through this link ->http://15.207.98.140:443/
 or
 
 For implementing on local host follow these steps:
+
     - install docker client from https://www.docker.com/
+    
     - clone the github repo from saarthak_dev_pro branch
+    
     - navigate to project directory
+    
     - run the command: docker-compose up --build
 
 ## Setup
