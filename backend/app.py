@@ -77,6 +77,8 @@ def hex_to_name(hex_code):
         return hex_code
 
 
+# In app.py, modify the /generate_ad/ endpoint:
+
 @app.post("/generate_ad/") 
 def generate_ad(
     payload: RequestPayload,
@@ -89,59 +91,69 @@ def generate_ad(
         # Extract creative details
         details = payload.creative_details
 
-        # Override details with user-provided values if available
-        if user_logo_url:
-            details.logo_url = user_logo_url
-        if user_product_image_url:
-            details.product_image_url = user_product_image_url
+        # Process logo and product image URLs
+        logo_url = user_logo_url if user_logo_url else details.logo_url
+        product_image_url = user_product_image_url if user_product_image_url else details.product_image_url
+
+        # Validate URLs if provided
+        if logo_url and not logo_url.startswith(('http://', 'https://')):
+            raise HTTPException(status_code=400, detail="Invalid logo URL format")
+        if product_image_url and not product_image_url.startswith(('http://', 'https://')):
+            raise HTTPException(status_code=400, detail="Invalid product image URL format")
+
+        # Process brand palette
+        color_names = []
         if user_brand_palette:
-            # Log the original brand palette before conversion
-            print(f"User provided brand palette (hex): {user_brand_palette}")  # Added print for clarity
-            # Convert hex codes in user brand palette to color names
             user_colors = user_brand_palette.split(',')
-            details.brand_palette = [hex_to_name(color.strip()) for color in user_colors]
-
-            # Print the converted color names
-            print("Converted Brand Palette to Color Names:")
-            for color in details.brand_palette:
-                print(f"- {color}")
-
-        # Incorporate the user-provided prompt along with the mandatory details
-        if user_prompt:
-            prompt = (
-                f"{user_prompt}. Product: {details.product_name}, Tagline: {details.tagline}, "
-                f"CTA: {details.cta_text}, Colors: {', '.join(details.brand_palette)}."
-            )
+            for color in user_colors:
+                color = color.strip()
+                if not color.startswith('#'):
+                    color = '#' + color
+                color_name = hex_to_name(color)
+                color_names.append(color_name)
+            details.brand_palette = color_names
         else:
-            prompt = create_prompt(
-                brand_title=details.product_name,
-                tagline=details.tagline,
-                cta=details.cta_text,
-                brand_palette=details.brand_palette,  # Pass dynamic palette
-                additional_description=" ".join(details.brand_palette)
-            )
+            for color in details.brand_palette:
+                color = color.strip()
+                if not color.startswith('#'):
+                    color = '#' + color
+                color_name = hex_to_name(color)
+                color_names.append(color_name)
+            details.brand_palette = color_names
+
+        # Create the prompt
+        prompt = create_prompt(
+            brand_title=details.product_name,
+            tagline=details.tagline,
+            cta=details.cta_text,
+            brand_palette=details.brand_palette,
+            additional_description=user_prompt if user_prompt else None,
+            user_design_style=None,
+            logo_url=logo_url if logo_url != "https://example.com/logo.png" else None,
+            product_image_url=product_image_url if product_image_url != "https://example.com/product.png" else None
+        )
+
+        # Print the final prompt for debugging
+        print("Generated prompt:", prompt)
+
 
         # Generate image using Stable Diffusion
         image_data = generate_image_from_hf(prompt)
 
-        # Save the image locally
+        # Rest of the code remains the same...
         local_file = f"assets/{uuid.uuid4().hex}.png"
         with open(local_file, "wb") as f:
             f.write(image_data["data"])
 
-        # Check if file exists locally
         if not os.path.exists(local_file):
             raise HTTPException(status_code=500, detail="Generated image file not found locally.")
 
-        # Upload to S3
-        bucket_name = "your-s3-bucket-name"  # Replace with your actual S3 bucket name
+        bucket_name = "your-s3-bucket-name"
         s3_key = f"generated_images/{uuid.uuid4().hex}.png"
         upload_to_s3(local_file, bucket_name, s3_key)
 
-        # Verify the upload and generate presigned URL
         presigned_url = generate_presigned_url(bucket_name, s3_key)
 
-        # Score the image
         marks = score(image_data, details.brand_palette)
         scoring = {
             "background_foreground_separation": marks.luminance_score(),
@@ -161,7 +173,10 @@ def generate_ad(
             "scoring": scoring,
             "metadata": {
                 "file_size_kb": os.path.getsize(local_file) / 1024,
-                "dimensions": details.dimensions
+                "dimensions": details.dimensions,
+                "used_colors": details.brand_palette,
+                "used_logo": bool(logo_url and logo_url != "https://example.com/logo.png"),
+                "used_product_image": bool(product_image_url and product_image_url != "https://example.com/product.png")
             }
         }
 

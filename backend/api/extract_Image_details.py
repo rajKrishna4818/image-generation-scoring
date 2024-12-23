@@ -2,6 +2,8 @@ from PIL import Image
 import numpy as np
 import cv2
 from collections import Counter
+import pytesseract
+import re
 
 class extract_details:
     def __init__(self, image):
@@ -14,6 +16,47 @@ class extract_details:
         self.cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
         # Create grayscale version for luminance analysis
         self.gray_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2GRAY)
+        
+    def extract_text_from_image(self):
+        """
+        Extract text from image using Tesseract OCR.
+        Includes preprocessing to improve text detection.
+        """
+        try:
+            # Convert the image to grayscale if it isn't already
+            if len(self.cv_image.shape) == 3:
+                gray = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2GRAY)
+            else:
+                gray = self.cv_image
+
+            # Apply thresholding to preprocess the image
+            threshold = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+
+            # Apply dilation to connect text components
+            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
+            dilation = cv2.dilate(threshold, kernel, iterations=1)
+
+            # Perform OCR on preprocessed image
+            text = pytesseract.image_to_string(dilation)
+            
+            # Clean up the extracted text
+            cleaned_text = self._clean_text(text)
+            
+            print(f"Extracted text from image: {cleaned_text}")  # Debug print
+            return cleaned_text
+
+        except Exception as e:
+            print(f"Error in text extraction: {str(e)}")
+            return ""
+
+    def _clean_text(self, text):
+        """
+        Clean up extracted text by removing special characters and extra whitespace.
+        """
+        # Remove special characters and extra whitespace
+        cleaned = re.sub(r'[^\w\s]', ' ', text)
+        cleaned = ' '.join(cleaned.split())
+        return cleaned.lower()  # Convert to lowercase for better matching
         
     def extract_luminance_details_in_image(self):
         """
@@ -120,3 +163,5 @@ class extract_details:
         min_l = min(l1, l2)
         
         return float((max_l + 0.05) / (min_l + 0.05))
+    
+
