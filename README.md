@@ -4,8 +4,14 @@
 A full-stack application for AI-driven ad creative generation and evaluation.
 
 Access the product through this link ->http://15.207.98.140:443/
+
 or
 
+For implementing on local host follow these steps:
+    - install docker client from https://www.docker.com/
+    - clone the github repo from saarthak_dev_pro branch
+    - navigate to project directory
+    - run the command: docker-compose up --build
 
 ## Setup
 
@@ -152,12 +158,15 @@ Copy code
     "call_to_action": 20
   }
 }
+
 Response: Output Contract
 
 If successful, the API returns a JSON response with the generated creative URL and scoring breakdown:
 
 json
+
 Copy code
+
 {
   "status": "success",
   "creative_url": "https://example.com/generated_creative.png",
