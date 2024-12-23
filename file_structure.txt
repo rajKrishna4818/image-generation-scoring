@@ -1,0 +1,35 @@
+.
+├── README.md
+├── backend
+│   ├── __pycache__
+│   │   ├── app.cpython-311.pyc
+│   │   └── app.cpython-313.pyc
+│   ├── api
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-311.pyc
+│   │   │   ├── __init__.cpython-313.pyc
+│   │   │   ├── extract_Image_details.cpython-313.pyc
+│   │   │   ├── score_functions.cpython-313.pyc
+│   │   │   ├── stable_diffusion_api.cpython-311.pyc
+│   │   │   └── stable_diffusion_api.cpython-313.pyc
+│   │   ├── extract_Image_details.py
+│   │   ├── input_contract.json
+│   │   ├── output_contract.json
+│   │   ├── score_functions.py
+│   │   ├── scoring_logic.py
+│   │   └── stable_diffusion_api.py
+│   ├── app.py
+│   ├── assets
+│   └── utils
+│       ├── __pycache__
+│       │   ├── prompt_generator.cpython-311.pyc
+│       │   ├── prompt_generator.cpython-313.pyc
+│       │   └── s3_uploader.cpython-311.pyc
+│       ├── prompt_generator.py
+│       └── s3_uploader.py
+├── file_structure.txt
+├── frontend
+│   └── frontend_ui.py
+├── main.py
+├── requirements.txt
