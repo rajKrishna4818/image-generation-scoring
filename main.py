@@ -1,5 +1,5 @@
-from utils.prompt_generator import create_prompt
-from api.stable_diffusion_api import generate_image_from_hf
+from backend.utils.prompt_generator import create_prompt
+from backend.api.stable_diffusion_api import generate_image_from_hf
 
 def main():
     # Get user input

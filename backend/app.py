@@ -25,8 +25,18 @@ class RequestPayload(BaseModel):
     scoring_criteria: dict
 
 # S3 client setup
-s3_client = boto3.client("s3")
+#s3_client = boto3.client("s3")
 
+S3_BUCKET_NAME = "customadgenerator"     # Replace with your S3 bucket name
+AWS_ACCESS_KEY= 'AKIAXNGUU7TZRV7GFHXF'
+AWS_SECRET_KEY= 'uSmB5V33KeR+YirEi/cxYZGe9zHsee/UBhUoSPKR'
+S3_REGION='ap-south-1'
+s3_client = boto3.client(
+            's3',
+            aws_access_key_id=AWS_ACCESS_KEY,
+            aws_secret_access_key=AWS_SECRET_KEY,
+            region_name=S3_REGION
+        )
 def upload_to_s3(file_path, bucket_name, s3_key):
     """
     Upload a file to S3 and return the uploaded file's S3 key.
@@ -75,11 +85,12 @@ def generate_ad(payload: RequestPayload):
     try:
         # Extract creative details
         details = payload.creative_details
+        clean_palette = [color.strip() for color in details.brand_palette]
         prompt = create_prompt(
             brand_title=details.product_name,
             tagline=details.tagline,
             cta=details.cta_text,
-            additional_description=" ".join(details.brand_palette)
+            additional_description=" ".join(clean_palette)
         )
         
         # Generate image using Stable Diffusion
