@@ -17,7 +17,7 @@ def create_prompt(brand_title, tagline, cta, brand_palette, additional_descripti
     """
     # Start with layout structure
     prompt = (
-        f"Create a professional advertisement with clear visual hierarchy. "
+        f"Create a professional advertisement with clear visual hierarchy.Add visually appealing title and cta button\n"
         f"The layout should have these distinct sections from top to bottom:\n"
         f"1. Large, clear brand name '{brand_title}' at the top in {brand_palette[0] if brand_palette else 'black'} color\n"
         f"2. Prominent tagline '{tagline}' below the brand name\n"
