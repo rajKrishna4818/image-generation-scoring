@@ -5,7 +5,7 @@ from utils.prompt_generator import create_prompt
 import boto3
 import os
 import uuid
-from score_functions import score
+from api.score_functions import score
 
 # FastAPI app instance
 app = FastAPI()
@@ -25,7 +25,17 @@ class RequestPayload(BaseModel):
     scoring_criteria: dict
 
 # S3 client setup
-s3_client = boto3.client("s3")
+#s3_client = boto3.client("s3")
+S3_BUCKET_NAME = "customadgenerator"     # Replace with your S3 bucket name
+AWS_ACCESS_KEY= 'AKIAXNGUU7TZRV7GFHXF'
+AWS_SECRET_KEY= 'uSmB5V33KeR+YirEi/cxYZGe9zHsee/UBhUoSPKR'
+S3_REGION='us-east-1'
+s3_client = boto3.client(
+            's3',
+            aws_access_key_id=AWS_ACCESS_KEY,
+            aws_secret_access_key=AWS_SECRET_KEY,
+            region_name=S3_REGION
+        )
 
 def upload_to_s3(file_path, bucket_name, s3_key):
     """
@@ -109,11 +119,12 @@ def generate_ad(payload: RequestPayload):
             "total_score":0,
         }
         marks = score(image_data,details.brand_palette)
-        scoring["call_to_action"] = marks.text_score(details.cta_text)
-        scoring["brand_guideline_adherence"] = marks.text_score(details.tagline)
-        scoring["product_focus"] = marks.luminance_score()
-        scoring["creativity_visual_appeal"] = marks.image_colour_contrast_score()
-        scoring["audience_relevance"] = marks.palatte_contrast_score()
+        scoring["call_to_action"] = round(marks.text_score(details.cta_text))
+        scoring["brand_guideline_adherence"] = round(marks.text_score(details.tagline))
+        scoring["product_focus"] = round(marks.luminance_score())
+        scoring["creativity_visual_appeal"] = round(marks.image_colour_contrast_score())
+        scoring["background_foreground_separation"] = round(marks.palatte_contrast_score())
+        scoring["audience_relevance"] = round(marks.palatte_contrast_score())
         scoring["total_score"] = sum(scoring.values())/6
 
 

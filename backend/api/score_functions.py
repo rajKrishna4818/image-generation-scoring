@@ -1,9 +1,23 @@
-from extract_Image_details import extract_details
-
+from api.extract_Image_details import extract_details
+from PIL import Image, ImageColor
+import io
 
 class score:
-    def __init__(self,binary_data, brand_palette):
-        self.image = extract_details(binary_data, brand_palette)
+    def __init__(self, binary_data, brand_palette):
+        # Initialize image processor from binary data
+        self.image = extract_details(Image.open(io.BytesIO(binary_data["data"])))
+        
+        # Process brand palette
+        self.brand_palette = []
+        for color in brand_palette:
+            try:
+                clean_color = color.strip()
+                if not clean_color.startswith('#'):
+                    clean_color = '#' + clean_color
+                rgb_color = ImageColor.getrgb(clean_color)
+                self.brand_palette.append(rgb_color)
+            except ValueError as e:
+                raise ValueError(f"Invalid color code: {color}. Please use valid hex color codes (e.g., #FF0000)")
 
     def luminance_score(self):
         output = self.image.extract_luminance_details_in_image()
@@ -14,7 +28,6 @@ class score:
             return 100 - output["Underexposed_percentage"]
         else:
             return 100 - output["overexposed_percentage"]
-        return 70
     
     def palatte_contrast_score(self):
         output = self.image.calculate_palette_contrast()
@@ -30,17 +43,6 @@ class score:
             return int((output - 2) * 50)
 
     def image_colour_contrast_score(self):
-        """
-
-        Calculate the output value based on the color distribution percentages.
-
-        Args:
-            output (dict): A dictionary where keys are RGB tuples (representing colors)
-                                    and values are percentages (0 to 100).
-
-        Returns:
-            float: The output value based on the specified criteria.
-        """
         output = self.image.extract_palette_details_in_image()
         total_percentage = sum(output.values())
         
@@ -64,21 +66,11 @@ class score:
         return closeness_to_equality * 100
     
     def text_score(self, input_text):
-        """
-        Calculate the matching percentage between the input string and the default string.
-
-        Args:
-            input_string (str): The input string to compare.
-            default_string (str): The default string to match against.
-
-        Returns:
-            float: A score from 0 to 100 indicating the match percentage.
-        """
         default_string = self.image.extract_text_from_image()
-        input_words = set(input_text.split())
-        default_words = set(default_string.split())
+        input_words = set(input_text.lower().split())
+        default_words = set(default_string.lower().split())
 
-        total_words = len(default_words)
+        total_words = len(input_words)
         if total_words == 0:
             return 0
 
@@ -90,6 +82,3 @@ class score:
             return 0
         else:
             return (matched_words / total_words) * 100
-                    
-
-        
