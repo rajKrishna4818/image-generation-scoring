@@ -137,157 +137,162 @@ Description: Generates an advertising creative based on the provided product det
 Request: Input Contract
 The API expects a JSON payload with the following fields:
 
-
-json
-Copy code
-
-{
-  "creative_details": {
-    "product_name": "GlowWell Skin Serum",
-    "tagline": "Radiance Redefined.",
-    "brand_palette": ["#FFC107", "#212121", "#FFFFFF"],
-    "dimensions": {
-      "width": 1080,
-      "height": 1080
-    },
-    "cta_text": "Shop Now",
-    "logo_url": "https://example.com/logo.png",
-    "product_image_url": "https://example.com/product.png"
-  },
-  "scoring_criteria": {
-    "background_foreground_separation": 20,
-    "brand_guideline_adherence": 20,
-    "creativity_visual_appeal": 20,
-    "product_focus": 20,
-    "call_to_action": 20
-  }
-}
-
+'''
+    json
+    Copy code
+    
+    {
+      "creative_details": {
+        "product_name": "GlowWell Skin Serum",
+        "tagline": "Radiance Redefined.",
+        "brand_palette": ["#FFC107", "#212121", "#FFFFFF"],
+        "dimensions": {
+          "width": 1080,
+          "height": 1080
+        },
+        "cta_text": "Shop Now",
+        "logo_url": "https://example.com/logo.png",
+        "product_image_url": "https://example.com/product.png"
+      },
+      "scoring_criteria": {
+        "background_foreground_separation": 20,
+        "brand_guideline_adherence": 20,
+        "creativity_visual_appeal": 20,
+        "product_focus": 20,
+        "call_to_action": 20
+      }
+    }
+'''
 Response: Output Contract
 
 If successful, the API returns a JSON response with the generated creative URL and scoring breakdown:
-
-json
-
-Copy code
-
-{
-  "status": "success",
-  "creative_url": "https://example.com/generated_creative.png",
-  "scoring": {
-    "background_foreground_separation": 18,
-    "brand_guideline_adherence": 19,
-    "creativity_visual_appeal": 16,
-    "product_focus": 15,
-    "call_to_action": 14,
-    "audience_relevance": 9,
-    "total_score": 91
-  },
-  "metadata": {
-    "file_size_kb": 320,
-    "dimensions": {
-      "width": 1080,
-      "height": 1080
+'''
+    json
+    Copy code
+    
+    {
+      "status": "success",
+      "creative_url": "https://example.com/generated_creative.png",
+      "scoring": {
+        "background_foreground_separation": 18,
+        "brand_guideline_adherence": 19,
+        "creativity_visual_appeal": 16,
+        "product_focus": 15,
+        "call_to_action": 14,
+        "audience_relevance": 9,
+        "total_score": 91
+      },
+      "metadata": {
+        "file_size_kb": 320,
+        "dimensions": {
+          "width": 1080,
+          "height": 1080
+        }
+      }
     }
-  }
-}
-
+'''
 Example cURL Request
-bash
 
-Copy code
-curl -X POST http://localhost:8000/generate_creative \
--H "Content-Type: application/json" \
--d '{
-  "creative_details": {
-    "product_name": "GlowWell Skin Serum",
-    "tagline": "Radiance Redefined.",
-    "brand_palette": ["#FFC107", "#212121", "#FFFFFF"],
-    "dimensions": {
-      "width": 1080,
-      "height": 1080
-    },
-    "cta_text": "Shop Now",
-    "logo_url": "https://example.com/logo.png",
-    "product_image_url": "https://example.com/product.png"
-  },
-  "scoring_criteria": {
-    "background_foreground_separation": 20,
-    "brand_guideline_adherence": 20,
-    "creativity_visual_appeal": 20,
-    "product_focus": 20,
-    "call_to_action": 20
-  }
-}'
+'''
 
+    curl -X POST http://localhost:8000/generate_creative \
+    -H "Content-Type: application/json" \
+    -d '{
+      "creative_details": {
+        "product_name": "GlowWell Skin Serum",
+        "tagline": "Radiance Redefined.",
+        "brand_palette": ["#FFC107", "#212121", "#FFFFFF"],
+        "dimensions": {
+          "width": 1080,
+          "height": 1080
+        },
+        "cta_text": "Shop Now",
+        "logo_url": "https://example.com/logo.png",
+        "product_image_url": "https://example.com/product.png"
+      },
+      "scoring_criteria": {
+        "background_foreground_separation": 20,
+        "brand_guideline_adherence": 20,
+        "creativity_visual_appeal": 20,
+        "product_focus": 20,
+        "call_to_action": 20
+      }
+    }
+'''
 ### 2.2 Analyze Creative
 Endpoint: /analyze_creative
 Method: POST
 Description: Evaluates an uploaded creative for compliance with predefined scoring metrics.
 Request: Input Contract
 The API expects a JSON payload with the creative URL to analyze:
-
-json
-Copy code
-{
-  "creative_url": "https://example.com/generated_creative.png",
-  "scoring_criteria": {
-    "background_foreground_separation": 20,
-    "brand_guideline_adherence": 20,
-    "creativity_visual_appeal": 20,
-    "product_focus": 20,
-    "call_to_action": 20
-  }
-}
+'''
+    json
+    
+    {
+      "creative_url": "https://example.com/generated_creative.png",
+      "scoring_criteria": {
+        "background_foreground_separation": 20,
+        "brand_guideline_adherence": 20,
+        "creativity_visual_appeal": 20,
+        "product_focus": 20,
+        "call_to_action": 20
+      }
+    }
+'''
 Response: Output Contract
 The response includes the scoring metrics for the analyzed creative:
-
-json
-Copy code
-{
-  "status": "success",
-  "scoring": {
-    "background_foreground_separation": 18,
-    "brand_guideline_adherence": 19,
-    "creativity_visual_appeal": 16,
-    "product_focus": 15,
-    "call_to_action": 14,
-    "audience_relevance": 9,
-    "total_score": 91
-  },
-  "metadata": {
-    "file_size_kb": 320,
-    "dimensions": {
-      "width": 1080,
-      "height": 1080
+'''
+    json
+    
+    {
+      "status": "success",
+      "scoring": {
+        "background_foreground_separation": 18,
+        "brand_guideline_adherence": 19,
+        "creativity_visual_appeal": 16,
+        "product_focus": 15,
+        "call_to_action": 14,
+        "audience_relevance": 9,
+        "total_score": 91
+      },
+      "metadata": {
+        "file_size_kb": 320,
+        "dimensions": {
+          "width": 1080,
+          "height": 1080
+        }
+      }
     }
-  }
-}
+'''
+
 Example cURL Request
-bash
-Copy code
-curl -X POST http://localhost:8000/analyze_creative \
--H "Content-Type: application/json" \
--d '{
-  "creative_url": "https://example.com/generated_creative.png",
-  "scoring_criteria": {
-    "background_foreground_separation": 20,
-    "brand_guideline_adherence": 20,
-    "creativity_visual_appeal": 20,
-    "product_focus": 20,
-    "call_to_action": 20
-  }
-}'
+'''
+    curl -X POST http://localhost:8000/analyze_creative \
+    -H "Content-Type: application/json" \
+    -d '{
+      "creative_url": "https://example.com/generated_creative.png",
+      "scoring_criteria": {
+        "background_foreground_separation": 20,
+        "brand_guideline_adherence": 20,
+        "creativity_visual_appeal": 20,
+        "product_focus": 20,
+        "call_to_action": 20
+      }
+    }}
+    
+'''
 3. Error Handling
 The API provides clear error responses in case of invalid input or processing errors:
 
 Example Error Response
-json
-Copy code
-{
-  "status": "error",
-  "message": "Invalid input: 'brand_palette' must contain exactly three colors."
-}
+'''
+    json
+    
+    {
+      "status": "error",
+      "message": "Invalid input: 'brand_palette' must contain exactly three colors."
+    }
+'''
 
 ## Conclusion
 
