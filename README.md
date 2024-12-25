@@ -137,7 +137,7 @@ Description: Generates an advertising creative based on the provided product det
 Request: Input Contract
 The API expects a JSON payload with the following fields:
 
-'''
+
     json
     Copy code
     
@@ -162,11 +162,11 @@ The API expects a JSON payload with the following fields:
         "call_to_action": 20
       }
     }
-'''
+
 Response: Output Contract
 
 If successful, the API returns a JSON response with the generated creative URL and scoring breakdown:
-'''
+
     json
     Copy code
     
@@ -190,10 +190,10 @@ If successful, the API returns a JSON response with the generated creative URL a
         }
       }
     }
-'''
+
 Example cURL Request
 
-'''
+
 
     curl -X POST http://localhost:8000/generate_creative \
     -H "Content-Type: application/json" \
@@ -218,14 +218,14 @@ Example cURL Request
         "call_to_action": 20
       }
     }
-'''
+
 ### 2.2 Analyze Creative
 Endpoint: /analyze_creative
 Method: POST
 Description: Evaluates an uploaded creative for compliance with predefined scoring metrics.
 Request: Input Contract
 The API expects a JSON payload with the creative URL to analyze:
-'''
+
     json
     
     {
@@ -238,10 +238,10 @@ The API expects a JSON payload with the creative URL to analyze:
         "call_to_action": 20
       }
     }
-'''
+
 Response: Output Contract
 The response includes the scoring metrics for the analyzed creative:
-'''
+
     json
     
     {
@@ -263,10 +263,10 @@ The response includes the scoring metrics for the analyzed creative:
         }
       }
     }
-'''
+
 
 Example cURL Request
-'''
+
     curl -X POST http://localhost:8000/analyze_creative \
     -H "Content-Type: application/json" \
     -d '{
@@ -280,19 +280,19 @@ Example cURL Request
       }
     }}
     
-'''
+
 3. Error Handling
 The API provides clear error responses in case of invalid input or processing errors:
 
 Example Error Response
-'''
+
     json
     
     {
       "status": "error",
       "message": "Invalid input: 'brand_palette' must contain exactly three colors."
     }
-'''
+
 
 ## Conclusion
 
